@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
@@ -362,7 +362,7 @@ class Json
             Console.WriteLine($"Une erreur s'est produite : {ex.Message}");
         }
     }
-    static void AddJsonKey(string filePath, string key, string valeur)
+    static void AddJsonKey(string filePath, string keya, string valeur)
     {
         try
         {
@@ -373,7 +373,7 @@ class Json
             JObject jsonObject = JObject.Parse(jsonContent);
 
             // Ajout de la nouvelle clé et de sa valeur
-            jsonObject[key] = valeur;
+            jsonObject[keya] = valeur;
 
             // Écriture du nouveau contenu dans le fichier JSON
             File.WriteAllText(filePath, jsonObject.ToString());
@@ -385,7 +385,7 @@ class Json
             Console.WriteLine($"Une erreur s'est produite : {ex.Message}");
         }
     }
-    public static bool IsJsonKeyExist(string filePath, string key)
+    public static bool IsJsonKeyExist(string filePath, string keya)
     {
         try
         {
@@ -396,7 +396,7 @@ class Json
             JObject jsonObject = JObject.Parse(jsonContent);
 
             // Vérification de l'existence de la clé
-            return jsonObject[key] != null;
+            return jsonObject[keya] != null;
         }
         catch (Exception)
         {
@@ -424,9 +424,9 @@ class Json
                 // Split the search string by '.' to traverse the JSON hierarchy
                 string[] searchKeys = search.Split('.');
 
-                foreach (string key in searchKeys)
+                foreach (string keya in searchKeys)
                 {
-                    if (foundElement.ValueKind == JsonValueKind.Object && foundElement.TryGetProperty(key, out JsonElement property))
+                    if (foundElement.ValueKind == JsonValueKind.Object && foundElement.TryGetProperty(keya, out JsonElement property))
                     {
                         foundElement = property;
                     }
@@ -813,34 +813,34 @@ class Program
         }
         return text.ToString();
     }
-    public static string EncryptXOR(string text, string key)
+    public static string EncryptXOR(string text, string keya)
     {
-        key = AdjustKey(key, text.Length);
+        keya = AdjustKey(keya, text.Length);
         StringBuilder encrypted = new StringBuilder();
         for (int i = 0; i < text.Length; i++)
         {
-            encrypted.Append((char)(text[i] ^ key[i % key.Length]));
+            encrypted.Append((char)(text[i] ^ keya[i % keya.Length]));
         }
         return encrypted.ToString();
     }
-    static string AdjustKey(string key, int length)
+    static string AdjustKey(string keya, int length)
     {
-        if (key.Length < length)
+        if (keya.Length < length)
         {
-            StringBuilder adjustedKey = new StringBuilder(key);
+            StringBuilder adjustedKey = new StringBuilder(keya);
             while (adjustedKey.Length < length)
             {
-                adjustedKey.Append(key);
+                adjustedKey.Append(keya);
             }
             return adjustedKey.ToString().Substring(0, length);
         }
-        else if (key.Length > length)
+        else if (keya.Length > length)
         {
-            return key.Substring(0, length);
+            return keya.Substring(0, length);
         }
         else
         {
-            return key;
+            return keya;
         }
     }
     static void creator(string name, string containe)
